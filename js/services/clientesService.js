@@ -9,7 +9,7 @@ export async function obtenerClientes() {
             throw new Error ("No se pudieron obtener los clientes: " + response.statusText);
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -34,7 +34,7 @@ export async function agregarCliente(cliente) {
             throw new Error (body?.message || "No se pudo agregar al cliente: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -56,7 +56,7 @@ export async function eliminarCliente(id) {
             throw new Error (body?.message || "Error al eliminar al cliente: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -74,7 +74,7 @@ export async function obtenerCliente(id) {
             throw new Error ("No se pudo obtener al cliente: " + response.statusText);
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -99,7 +99,7 @@ export async function actualizarCliente(id, cliente) {
             throw new Error (body?.message || "No se pudo actualizar al cliente: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {

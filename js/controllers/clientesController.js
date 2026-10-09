@@ -1,4 +1,4 @@
-import { obtenerCliente, obtenerClientes, eliminarCliente, actualizarCliente, agregarCliente } from "../services/clientesService";
+import { obtenerCliente, obtenerClientes, eliminarCliente, actualizarCliente, agregarCliente } from "../services/clientesService.js";
 
 // Elementos del DOM
 const frmAgregarClientes = document.getElementById("frmAgregarClientes");
@@ -15,6 +15,8 @@ const btnCancelar = document.getElementById("btnCancelar");
 const mensaje = document.getElementById("mensaje");
 const textoMensaje = document.getElementById("textoMensaje");
 const tbClientes = document.getElementById("tbClientes");
+
+let temporizador;
 
 // Alerta 
 function mostrarAlerta(texto, tipo) {
@@ -45,14 +47,16 @@ async function cargarClientes() {
                     <td>${cliente.telefono}</td>
                     <td>${cliente.email}</td>
                     <td>${cliente.direccion}</td>
+                    <td>
                     <button class="btn btn-danger btn-sm" onclick="borrarCliente(${cliente.id})">Eliminar</button>
                     <button class="btn btn-warning btn-sm" onclick="cargarInformacionCliente(${cliente.id})">Actualizar</button>
+                    <td>
                 </tr>
             `
         })
     } 
     catch (error) {
-        mostrarAlerta("No se pudieron cargar los clientes: " + error.mesage, "danger");
+        mostrarAlerta("No se pudieron cargar los clientes: " + error.message, "danger");
         console.error(error);
     }
 }
@@ -159,5 +163,5 @@ async function cargarInformacionCliente(id) {
     }
 }
 
-window.cargarClientes = cargarClientes;
+window.borrarCliente = borrarCliente;
 window.cargarInformacionCliente = cargarInformacionCliente;

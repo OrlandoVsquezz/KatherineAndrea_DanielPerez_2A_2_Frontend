@@ -39,7 +39,7 @@
             <form id="frmAgregarClientes">
                 <fieldset>
                     <legend class="text-center fw-bold mb-4">Gestión de clientes</legend>
-                    <input id="idEmpleado" hidden> <!-- idCliente-->
+                    <input id="idCliente" hidden> <!-- idCliente-->
                     <div class="mb-3"><!-- txtNombre -->
                         <label for="txtNombre" class="form-label">Nombre:</label>
                         <input type="text" id="txtNombre" class="form-control" placeholder="ej. Daniel Orlando"
@@ -86,7 +86,6 @@
                         <th scope="col">Email</th>
                         <th scope="col">Dirección</th>
                         <th scope="col">Acciones</th>
-
                     </tr>
                 </thead>
                 <tbody id="tbClientes"> <!-- tbClientes-->
@@ -101,7 +100,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <!-- Controller propio -->
-    <script type="module" src=""></script>
+    <script type="module" src="js/controllers/clientesController.js"></script>
 </body>
 
 </html>

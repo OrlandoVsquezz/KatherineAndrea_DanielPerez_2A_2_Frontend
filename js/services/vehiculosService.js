@@ -9,7 +9,7 @@ export async function obtenerVehiculos() {
             throw new Error ("No se pudieron obtener los vehiculos: " + response.statusText)
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {

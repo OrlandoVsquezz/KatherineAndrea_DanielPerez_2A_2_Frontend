@@ -9,7 +9,7 @@ export async function obtenerReservas() {
             throw new Error ("No se pudieron obtener las reservas: " + response.statusText);
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -34,7 +34,7 @@ export async function agregarReserva(reserva) {
             throw new Error (body?.message || "No se pudo agregar la reserva: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -56,7 +56,7 @@ export async function eliminarReserva(id) {
             throw new Error (body?.message || "Error al eliminar la reserva: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -74,7 +74,7 @@ export async function obtenerReserva(id) {
             throw new Error ("No se pudieron obtener la reserva: " + response.statusText);
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {
@@ -99,7 +99,7 @@ export async function actualizarReserva(id, reserva) {
             throw new Error (body?.message || "No se pudo actualizar la reserva: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json;
+        const resultado = await response.json();
         return resultado.data;
     } 
     catch (error) {

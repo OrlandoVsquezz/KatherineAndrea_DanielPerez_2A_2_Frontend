@@ -1,11 +1,11 @@
-import { obtenerReserva, obtenerReservas, eliminarReserva, actualizarReserva, agregarReserva } from "../services/reservasService"
-import { obtenerClientes } from "../services/clientesService"
-import { obtenerVehiculos } from "../services/vehiculosService"
+import { obtenerReserva, obtenerReservas, eliminarReserva, actualizarReserva, agregarReserva } from "../services/reservasService.js"
+import { obtenerClientes } from "../services/clientesService.js"
+import { obtenerVehiculos } from "../services/vehiculosService.js"
 
 // Elementos del DOM 
 const frmAgregarReservas = document.getElementById("frmAgregarReservas");
 const idReserva = document.getElementById("idReserva");
-const ddNombreCliente = document.getElementById("NombreCliente");
+const ddNombreCliente = document.getElementById("ddNombreCliente");
 const ddVehiculo = document.getElementById("ddVehiculo");
 const txtFechaReserva = document.getElementById("txtFechaReserva");
 const txtCantidadPasajeros = document.getElementById("txtCantidadPasajeros");
@@ -71,8 +71,6 @@ async function cargarReservas() {
         tbReservas.innerHTML = "";
 
         reservas.forEach((reserva) => {
-            const cliente = listaClientes.find((c) => c.id === cliente.id);
-            const vehiculo = listaVehiculos.find((v) => v.id === vehiculo.id)
 
             tbReservas.innerHTML += `
                 <tr>
@@ -84,14 +82,16 @@ async function cargarReservas() {
                     <td>${reserva.cantidadDias}</td>
                     <td>${reserva.totalPago}</td>
                     <td>${reserva.estadoActual}</td>
+                    <td>
                     <button class="btn btn-danger btn-sm" onclick="borrarReserva(${reserva.id})">Eliminar</button>
                     <button class="btn btn-warning btn-sm" onclick="cargarInformacionReserva(${reserva.id})">Actualizar</button>
+                    </td>
                 </tr>
             `
         })
     } 
     catch (error) {
-        mostrarAlerta("No se pudieron cargar las reservas: " + error.mesage, "danger");
+        mostrarAlerta("No se pudieron cargar las reservas: " + error.message, "danger");
         console.error(error);
     }
 }
