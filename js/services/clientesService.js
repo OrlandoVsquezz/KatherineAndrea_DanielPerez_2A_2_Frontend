@@ -35,7 +35,7 @@ export async function agregarCliente(cliente) {
         }    
 
         const resultado = await response.json();
-        return resultado.data;
+        return resultado;
     } 
     catch (error) {
         console.error("Error al agregar al cliente: " + error);
@@ -47,7 +47,7 @@ export async function agregarCliente(cliente) {
 // Método DELETE
 export async function eliminarCliente(id) {
     try {
-        const response = await fetch (API_URL, {
+        const response = await fetch (`${API_URL}/${id}`, {
             method: "DELETE"
         });
         
@@ -56,8 +56,7 @@ export async function eliminarCliente(id) {
             throw new Error (body?.message || "Error al eliminar al cliente: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json();
-        return resultado.data;
+        return true;
     } 
     catch (error) {
         console.error("Error al eliminar al cliente: " + error);
@@ -100,7 +99,7 @@ export async function actualizarCliente(id, cliente) {
         }    
 
         const resultado = await response.json();
-        return resultado.data;
+        return resultado;
     } 
     catch (error) {
         console.error("Error al actualizar al cliente: " + error);

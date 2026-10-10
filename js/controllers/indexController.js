@@ -26,7 +26,7 @@ let temporizador;
 
 // Alerta 
 function mostrarAlerta(texto, tipo) {
-    const tema = tipo === "success" ? "theme-success" : "theme-danger";
+    const tema = tipo === "success" ? "alert-success" : "alert-danger";
     // Si es de tipo success se mostrara verde sino rojo
     mensaje.className = `alert ${tema}`; // Aqui se cambian las clases
     textoMensaje.textContent = texto;
@@ -42,21 +42,21 @@ async function cargarSelects() {
     try {
         const clientes = await obtenerClientes();
         const vehiculos = await obtenerVehiculos();
-        
+
         listaClientes = clientes;
         listaVehiculos = vehiculos;
 
         ddNombreCliente.innerHTML = '<option value="">Selecciona un cliente</option>';
         clientes.forEach((cliente) => {
-            ddNombreCliente.innerHTML += `<option value="${cliente.id}">${cliente.nombre} + " " + ${cliente.apellido} </option>`;
+            ddNombreCliente.innerHTML += `<option value="${cliente.id}">${cliente.nombre} ${cliente.apellido} </option>`;
         })
 
         ddVehiculo.innerHTML = '<option value="">Selecciona un vehículo</option>';
         vehiculos.forEach((vehiculo) => {
-            ddVehiculo.innerHTML += `<option value="${vehiculo.id}">${vehiculo.nombre}</option>`;
+            ddVehiculo.innerHTML += `<option value="${vehiculo.id}">${vehiculo.modelo}</option>`;
         });
 
-    } 
+    }
     catch (error) {
         mostrarAlerta("No se pudieron cargar los clientes o los vehiculos: " + error.message, "danger");
         console.error(error);
@@ -67,7 +67,7 @@ async function cargarSelects() {
 async function cargarReservas() {
     try {
         const reservas = await obtenerReservas();
-        
+
         tbReservas.innerHTML = "";
 
         reservas.forEach((reserva) => {
@@ -75,13 +75,13 @@ async function cargarReservas() {
             tbReservas.innerHTML += `
                 <tr>
                     <td>${reserva.id}</td>
-                    <td>${reserva.nombre} + " " + ${reserva.apellido}</td>
+                    <td>${reserva.nombreReserva}</td>
                     <td>${reserva.placa}</td>
-                    <td>${reserva.fechaReserva}</td>
+                    <td>${reserva.fechaReserva.substring(0, 10)}</td>
                     <td>${reserva.cantidadPasajeros}</td>
                     <td>${reserva.cantidadDias}</td>
                     <td>${reserva.totalPago}</td>
-                    <td>${reserva.estadoActual}</td>
+                    <td>${reserva.estado}</td>
                     <td>
                     <button class="btn btn-danger btn-sm" onclick="borrarReserva(${reserva.id})">Eliminar</button>
                     <button class="btn btn-warning btn-sm" onclick="cargarInformacionReserva(${reserva.id})">Actualizar</button>
@@ -89,7 +89,7 @@ async function cargarReservas() {
                 </tr>
             `
         })
-    } 
+    }
     catch (error) {
         mostrarAlerta("No se pudieron cargar las reservas: " + error.message, "danger");
         console.error(error);
@@ -103,8 +103,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 function esFechaPasada(fechaTexto) {
     const [anio, mes, dia] = fechaTexto.split("-").map(Number);
-    const fecha = new Date (anio, mes -1, dia);
-    
+    const fecha = new Date(anio, mes - 1, dia);
+
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
 
@@ -120,49 +120,40 @@ frmAgregarReservas.addEventListener("submit", async function (event) {
     const fechaReserva = txtFechaReserva.value.trim();
     const cantidadPasajeros = txtCantidadPasajeros.value.trim();
     const cantidadDias = txtCantidadDias.value.trim();
-    const totalPago = txtTotalPago.value.trim();
     const estadoReserva = ddEstadoReserva.value.trim();
 
     // Validaciones 
-    if(cliente == "" || vehiculo == "" || fechaReserva == "" || cantidadPasajeros == "" || cantidadDias == "" || totalPago == "" || estadoReserva == "") {
+    if (cliente == "" || vehiculo == "" || fechaReserva == "" || cantidadPasajeros == "" || cantidadDias == "" || estadoReserva == "") {
         mostrarAlerta("Todos los campos son obligatorios, no se debe dejar ningun campo vacio", "warning");
         return;
     }
 
-    if(fechaReserva == ""){
-        mostrarAlerta("Seleccione una fecha", "warning");
-    }
-
-    if(esFechaPasada(fechaReserva)){
-        mostrarAlerta("La fecha no puede ser pasada");
-        return;
-    }
+    const c = listaClientes.find((x) => x.id === Number(cliente));
 
     const reserva = {
-        id: id,
+        nombreReserva: c.nombre + " " + c.apellido,
         idCliente: Number(cliente),
         idVehiculo: Number(vehiculo),
         fechaReserva: fechaReserva,
-        cantidadPasajeros: cantidadPasajeros,
-        cantidadDias: cantidadDias,
-        estado: estadoReserva,
-        totalPago: totalPago
-    }
+        cantidadPasajeros: Number(cantidadPasajeros),
+        cantidadDias: Number(cantidadDias),
+        estado: estadoReserva
+    };
 
     try {
         let resultado;
-        
-        if(id != ""){
+
+        if (id != "") {
             resultado = await actualizarReserva(id, reserva);
         }
         else {
             resultado = await agregarReserva(reserva)
         }
 
-        mostrarAlerta(resultado.mesage, "success");
+        mostrarAlerta(resultado.message, "success");
         resetForm();
         await cargarReservas();
-    } 
+    }
     catch (error) {
         mostrarAlerta("No se pudo guardar la reserva :" + error.message, "error");
     }
@@ -173,6 +164,7 @@ function resetForm() {
     idReserva.value = "";
     btnAgregarReserva.textContent = "Agregar reserva";
     btnCancelar.classList.add("d-none");
+    ddEstadoReserva.disabled = true;
 }
 
 btnCancelar.addEventListener("click", resetForm);
@@ -180,7 +172,7 @@ btnCancelar.addEventListener("click", resetForm);
 async function borrarReserva(id) {
     const confirmacion = confirm("¿Desea eliminar esta reserva?");
 
-    if(!confirmacion){
+    if (!confirmacion) {
         return;
     }
 
@@ -198,8 +190,8 @@ async function borrarReserva(id) {
 async function cargarInformacionReserva(id) {
     try {
         const reserva = await obtenerReserva(id);
-        
-        if(!reserva) {
+
+        if (!reserva) {
             mostrarAlerta("No se encontro la reserva", "error");
             return;
         }
@@ -207,17 +199,18 @@ async function cargarInformacionReserva(id) {
         idReserva.value = reserva.id;
         ddNombreCliente.value = reserva.idCliente;
         ddVehiculo.value = reserva.idVehiculo;
-        txtFechaReserva.value = reserva.fechaReserva;
+        txtFechaReserva.value = reserva.fechaReserva.substring(0, 10);
         txtCantidadPasajeros.value = reserva.cantidadPasajeros;
         txtCantidadDias.value = reserva.cantidadDias;
         ddEstadoReserva.value = reserva.estado;
+        ddEstadoReserva.disabled = false;
         txtTotalPago.value = reserva.totalPago;
 
         btnAgregarReserva.textContent = "Actualizar";
         btnCancelar.classList.remove("d-none");
 
-        window.scrollTo({ top: 0, behavior: "smooth"});
-    } 
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     catch (error) {
         mostrarAlerta("No se pudieron obtener los datos de la reserva", "error");
         console.error(error);

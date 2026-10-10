@@ -20,7 +20,7 @@ let temporizador;
 
 // Alerta 
 function mostrarAlerta(texto, tipo) {
-    const tema = tipo === "success" ? "theme-success" : "theme-danger";
+    const tema = tipo === "success" ? "alert-success" : "alert-danger";
     // Si es de tipo success se mostrara verde sino rojo
     mensaje.className = `alert ${tema}`; // Aqui se cambian las clases
     textoMensaje.textContent = texto;
@@ -50,7 +50,7 @@ async function cargarClientes() {
                     <td>
                     <button class="btn btn-danger btn-sm" onclick="borrarCliente(${cliente.id})">Eliminar</button>
                     <button class="btn btn-warning btn-sm" onclick="cargarInformacionCliente(${cliente.id})">Actualizar</button>
-                    <td>
+                    </td>
                 </tr>
             `
         })
@@ -87,7 +87,7 @@ frmAgregarClientes.addEventListener("submit", async function (event) {
         apellido: apellido,
         telefono: telefono,
         email: email,
-        direccion: direccion
+        direccion: direccion || null
     }
 
     try {
@@ -100,7 +100,7 @@ frmAgregarClientes.addEventListener("submit", async function (event) {
             resultado = await agregarCliente(cliente)
         }
 
-        mostrarAlerta(resultado.mesage, "success");
+        mostrarAlerta(resultado.message, "success");
         resetForm();
         await cargarClientes();
     } 

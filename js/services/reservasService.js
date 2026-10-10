@@ -35,7 +35,7 @@ export async function agregarReserva(reserva) {
         }    
 
         const resultado = await response.json();
-        return resultado.data;
+        return resultado;
     } 
     catch (error) {
         console.error("Error al agregar la reserva: " + error);
@@ -47,7 +47,7 @@ export async function agregarReserva(reserva) {
 // Método DELETE
 export async function eliminarReserva(id) {
     try {
-        const response = await fetch (API_URL, {
+        const response = await fetch (`${API_URL}/${id}`, {
             method: "DELETE"
         });
         
@@ -56,8 +56,7 @@ export async function eliminarReserva(id) {
             throw new Error (body?.message || "Error al eliminar la reserva: " + response.statusText); // Así da la respuesta que trae el json en vez de una generica
         }    
 
-        const resultado = await response.json();
-        return resultado.data;
+        return true;
     } 
     catch (error) {
         console.error("Error al eliminar la reserva: " + error);
@@ -100,7 +99,7 @@ export async function actualizarReserva(id, reserva) {
         }    
 
         const resultado = await response.json();
-        return resultado.data;
+        return resultado;
     } 
     catch (error) {
         console.error("Error al actualizar la reserva: " + error);

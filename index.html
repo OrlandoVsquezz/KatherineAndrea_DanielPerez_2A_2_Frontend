@@ -64,7 +64,7 @@
                     </div>
                     <div class="mb-3"><!-- txtCantidadDias -->
                         <label for="txtCantidadDias" class="form-label">Cantidad de días:</label>
-                        <input type="number" id="txtCantidadDias" class="form-control"  min="1">
+                        <input type="number" id="txtCantidadDias" class="form-control" min="1" required>
                     </div>
                     <div class="mb-3"><!-- txtTotalPago -->
                         <label for="txtTotalPago" class="form-label">Total a pagar:</label>
@@ -74,6 +74,9 @@
                         <label for="ddEstadoReserva" class="form-label">Estado de la reserva:</label>
                         <select id="ddEstadoReserva" class="form-select" disabled>
                             <option value="CONFIRMADA">Confirmada</option>
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="CANCELADA">Cancelada</option>
+                            <option value="FINALIZADA">Finalizada</option>
                         </select>
                     </div>
                     <div class="alert d-none" id="mensaje" role="alert"> <!-- mensaje -->
